@@ -1,17 +1,12 @@
+
 import DishItem from '../DishItem'
 
-const DishList = ({dishes, updateCart}) => {
-  return (
-    <ul>
-      {dishes.map(dish => (
-        <DishItem
-          key={dish.dish_id}
-          dish={dish}
-          updateCart={updateCart}
-        />
-      ))}
-    </ul>
-  )
-}
+const DishList = ({dishes}) => (
+  <ul className="dish-list">
+    {dishes.map(dish => (
+      <DishItem key={dish.dish_id} dish={dish} />
+    ))}
+  </ul>
+)
 
 export default DishList

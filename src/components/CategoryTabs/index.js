@@ -1,21 +1,28 @@
+
 import './index.css'
 
-const CategoryTabs = props => {
-  const {menu, setActive} = props
-
-  return (
-    <div className="tabs">
-      {menu.map(item => (
+const CategoryTabs = ({
+  categories,
+  activeCategory,
+  setActiveCategory,
+}) => (
+  <ul className="category-tabs">
+    {categories.map(category => (
+      <li key={category.menu_category_id}>
         <button
           type="button"
-          key={item.menu_category_id}
-          onClick={() => setActive(item.menu_category)}
+          className={
+            activeCategory === category.menu_category
+              ? 'active-category'
+              : ''
+          }
+          onClick={() => setActiveCategory(category.menu_category)}
         >
-          {item.menu_category}
+          {category.menu_category}
         </button>
-      ))}
-    </div>
-  )
-}
+      </li>
+    ))}
+  </ul>
+)
 
 export default CategoryTabs

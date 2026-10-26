@@ -1,15 +1,28 @@
+
+import {useContext} from 'react'
+import {Link} from 'react-router-dom'
+import {CartContext} from '../../context/CartContext'
 import './index.css'
 
-const Header = ({restaurantName, cartCount}) => {
+const Header = ({restaurantName}) => {
+  const {cartList} = useContext(CartContext)
+
+  const cartCount = cartList.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  )
+
   return (
-    <div className="header">
-      <h1>{restaurantName}</h1>
+    <header className="header">
+      <Link to="/" className="restaurant-name">
+        {restaurantName}
+      </Link>
 
       <div className="cart">
-        <span>My Orders</span>
+        <Link to="/cart">My Orders</Link>
         <span className="count">{cartCount}</span>
       </div>
-    </div>
+    </header>
   )
 }
 

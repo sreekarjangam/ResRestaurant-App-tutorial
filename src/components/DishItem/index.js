@@ -1,51 +1,61 @@
-import {useState} from 'react'
+
+import {useContext} from 'react'
+import {CartContext} from '../../context/CartContext'
 import './index.css'
 
-const DishItem = ({dish, updateCart}) => {
-  const [count, setCount] = useState(0)
+const DishItem = ({dish}) => {
+  const {
+    cartList,
+    addCartItem,
+    incrementCartItemQuantity,
+    decrementCartItemQuantity,
+  } = useContext(CartContext)
+
+  const cartItem = cartList.find(
+    item => item.dish_id === dish.dish_id,
+  )
+
+  const count = cartItem ? cartItem.quantity : 0
 
   const add = () => {
-    setCount(prev => prev + 1)
-    updateCart(1)
+    if (count === 0) {
+      addCartItem(dish)
+    } else {
+      incrementCartItemQuantity(dish.dish_id)
+    }
   }
-const remove = () => {
-  if (count > 0) {
-    setCount(prevCount => prevCount - 1)
-    updateCart(-1)
-  }
-}
 
+  const remove = () => {
+    if (count > 0) {
+      decrementCartItemQuantity(dish.dish_id)
+    }
+  }
 
   return (
     <li className="dish">
-      <div>
+      <div className="dish-details">
         <h1>{dish.dish_name}</h1>
-
         <p>
           {dish.dish_currency} {dish.dish_price}
         </p>
-
         <p>{dish.dish_description}</p>
-
         <p>{dish.dish_calories} calories</p>
 
-     {dish.dish_Availability === false ? (
-  <p className="not">Not available</p>
-) : (
-  <div className="counter">
-    <button type="button" onClick={remove}>
-      -
-    </button>
+        {dish.dish_Availability === false ? (
+          <p>Not available</p>
+        ) : (
+          <div className="counter">
+            <button type="button" onClick={remove}>
+              -
+            </button>
+            <span>{count}</span>
+            <button type="button" onClick={add}>
+              +
+            </button>
+          </div>
+        )}
 
-    <p>{count}</p>
-
-    <button type="button" onClick={add}>
-      +
-    </button>
-  </div>
-)}
-
-        {dish.addonCat && dish.addonCat.length > 0 && (
+        {dish.addonCat?.length > 0 && (
           <p>Customizations available</p>
         )}
       </div>
